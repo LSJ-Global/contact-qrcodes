@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // ZXing core (QR 코드 생성용)
+    implementation 'com.google.zxing:core:3.5.3'
+
+    // ZXing Java SE 지원 (BufferedImage 등 플랫폼 종속 기능 지원)
+    implementation 'com.google.zxing:javase:3.5.3'
+}
+
+test {
+    useJUnitPlatform()
+}
