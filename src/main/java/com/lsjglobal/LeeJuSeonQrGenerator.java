@@ -13,7 +13,7 @@ import java.util.Map;
 public class LeeJuSeonQrGenerator {
     public static void main(String[] args) {
         try {
-            String qrUrl = "https://lsj-global.github.io/contact-qrcodes/Lee_ju_seon.vcf";
+            String qrUrl = SvgUtil.qrUrl("Lee_ju_seon.vcf");
             int size = 300;
 
             Map<EncodeHintType, Object> hints = new HashMap<>();
@@ -23,12 +23,9 @@ public class LeeJuSeonQrGenerator {
 
             BitMatrix matrix = new MultiFormatWriter().encode(qrUrl, BarcodeFormat.QR_CODE, size, size, hints);
 
-            Path svgPath = FileSystems.getDefault().getPath("Lee_ju_seon_qr.svg");
-            try (FileWriter writer = new FileWriter(svgPath.toFile())) {
-                writer.write(SvgUtil.toSvg(matrix));
-            }
-
-            System.out.println("✅ QR 생성 완료: Lee_ju_seon_qr.svg");
+            String svgFileName = "Lee_ju_seon_qr.svg";
+            SvgUtil.writeSvg(matrix, svgFileName);
+            System.out.println("✅ QR 생성 완료: qr/" + svgFileName);
         } catch (Exception e) {
             e.printStackTrace();
         }

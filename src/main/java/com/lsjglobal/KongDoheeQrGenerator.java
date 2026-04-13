@@ -15,7 +15,7 @@ import java.util.Map;
 public class KongDoheeQrGenerator {
     public static void main(String[] args) {
         try {
-            String qrUrl = "https://lsj-global.github.io/contact-qrcodes/Kong_Dohee.vcf";
+            String qrUrl = SvgUtil.qrUrl("Kong_Dohee.vcf");
             int size = 300;
 
             Map<EncodeHintType, Object> hints = new HashMap<>();
@@ -25,12 +25,9 @@ public class KongDoheeQrGenerator {
 
             BitMatrix matrix = new MultiFormatWriter().encode(qrUrl, BarcodeFormat.QR_CODE, size, size, hints);
 
-            Path svgPath = FileSystems.getDefault().getPath("Kong_Dohee.svg");
-            try (FileWriter writer = new FileWriter(svgPath.toFile())) {
-                writer.write(SvgUtil.toSvg(matrix));
-            }
-
-            System.out.println("✅ QR 생성 완료: Kong_Dohee_qr.svg");
+            String svgFileName = "Kong_Dohee.svg";
+            SvgUtil.writeSvg(matrix, svgFileName);
+            System.out.println("✅ QR 생성 완료: qr/" + svgFileName);
         } catch (Exception e) {
             e.printStackTrace();
         }

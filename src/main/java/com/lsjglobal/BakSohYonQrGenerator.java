@@ -13,7 +13,7 @@ import java.util.Map;
 public class BakSohYonQrGenerator {
     public static void main(String[] args) {
         try {
-            String qrUrl = "https://lsj-global.github.io/contact-qrcodes/Bak_soh_Yon.vcf";
+            String qrUrl = SvgUtil.qrUrl("Bak_soh_Yon.vcf");
             int size = 300;
 
             Map<EncodeHintType, Object> hints = new HashMap<>();
@@ -23,12 +23,9 @@ public class BakSohYonQrGenerator {
 
             BitMatrix matrix = new MultiFormatWriter().encode(qrUrl, BarcodeFormat.QR_CODE, size, size, hints);
 
-            Path svgPath = FileSystems.getDefault().getPath("Bak_soh_yon_qr.svg");
-            try (FileWriter writer = new FileWriter(svgPath.toFile())) {
-                writer.write(SvgUtil.toSvg(matrix));
-            }
-
-            System.out.println("✅ QR 생성 완료: Park_so_yeon_qr.svg");
+            String svgFileName = "Bak_soh_yon_qr.svg";
+            SvgUtil.writeSvg(matrix, svgFileName);
+            System.out.println("✅ QR 생성 완료: qr/" + svgFileName);
         } catch (Exception e) {
             e.printStackTrace();
         }

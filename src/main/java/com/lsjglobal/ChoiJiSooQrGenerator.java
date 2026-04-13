@@ -13,7 +13,7 @@ import java.util.Map;
 public class ChoiJiSooQrGenerator {
     public static void main(String[] args) {
         try {
-            String qrUrl = "https://lsj-global.github.io/contact-qrcodes/Choi_ji_soo.vcf";
+            String qrUrl = SvgUtil.qrUrl("Choi_ji_soo.vcf");
             int size = 300;
 
             Map<EncodeHintType, Object> hints = new HashMap<>();
@@ -23,12 +23,9 @@ public class ChoiJiSooQrGenerator {
 
             BitMatrix matrix = new MultiFormatWriter().encode(qrUrl, BarcodeFormat.QR_CODE, size, size, hints);
 
-            Path svgPath = FileSystems.getDefault().getPath("Choi_ji_soo_qr.svg");
-            try (FileWriter writer = new FileWriter(svgPath.toFile())) {
-                writer.write(SvgUtil.toSvg(matrix));
-            }
-
-            System.out.println("✅ QR 생성 완료: Choi_ji_soo_qr.svg");
+            String svgFileName = "Choi_ji_soo_qr.svg";
+            SvgUtil.writeSvg(matrix, svgFileName);
+            System.out.println("✅ QR 생성 완료: qr/" + svgFileName);
 
         } catch (Exception e) {
             e.printStackTrace();

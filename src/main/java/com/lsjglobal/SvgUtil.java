@@ -2,7 +2,16 @@ package com.lsjglobal;
 
 import com.google.zxing.common.BitMatrix;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 public class SvgUtil {
+    private static final String BASE_URL = "https://lsj-global.github.io/contact-qrcodes";
+    private static final String VCARD_DIR = "vcards";
+    private static final String QR_DIR = "qr";
+
     public static String toSvg(BitMatrix matrix) {
         int width = matrix.getWidth();
         int height = matrix.getHeight();
@@ -25,5 +34,18 @@ public class SvgUtil {
 
         svg.append("</svg>");
         return svg.toString();
+    }
+
+    public static String qrUrl(String vcardFileName) {
+        return BASE_URL + "/" + VCARD_DIR + "/" + vcardFileName;
+    }
+
+    public static void writeSvg(BitMatrix matrix, String svgFileName) throws IOException {
+        Path svgPath = Path.of(QR_DIR, svgFileName);
+        Files.createDirectories(svgPath.getParent());
+
+        try (FileWriter writer = new FileWriter(svgPath.toFile())) {
+            writer.write(toSvg(matrix));
+        }
     }
 }
